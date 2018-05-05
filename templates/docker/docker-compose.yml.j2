@@ -1,0 +1,19 @@
+version: '3.1'
+services:
+  {{service_name}}:
+    image: {{docker_image.name}}:{{docker_image.tag}}
+    container_name: {{docker_container.name}}
+{% if docker_container.volumes.config != "" %}
+    volumes:
+     - {{docker_container.volumes.config}}:/etc/mumble
+{% endif %}
+{% if docker_container.publish.port != "" %}
+    ports:
+     - {{docker_container.publish.interface}}:{{docker_container.publish.port}}:64738/tcp
+     - {{docker_container.publish.interface}}:{{docker_container.publish.port}}:64738/udp
+{% endif %}
+    networks:
+     - {{service_name}}_network
+
+networks:
+  {{service_name}}_network:

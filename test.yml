@@ -1,0 +1,23 @@
+---
+- hosts: test_machine
+  become: yes
+
+  pre_tasks:
+  - apt:
+      name: python-docker
+      update_cache: yes
+
+  post_tasks:
+  - apt:
+      name: python-docker
+      state: absent
+      purge: yes
+
+  roles:
+  - role: '.'
+    version: 1.2.19
+    volumes:
+      config: /srv/docker/mumble/config
+    publish:
+      port: 64738
+      interface: 0.0.0.0
